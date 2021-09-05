@@ -1,7 +1,6 @@
 import click
 from logging import getLogger
 import pytesseract
-from PIL import Image
 import cv2
 import pdf2image
 
@@ -16,6 +15,7 @@ print(pytesseract.image_to_string("samples/imbw_image.jpg", lang="eng"))
 logger = getLogger(__name__)
 
 images = pdf2image.convert_from_path('samples/2003.00744v1_image_pdf.pdf',dpi=300, grayscale=True)
+
 for i in range(len(images)):
     images[i].save('samples/page' + str(i) + '.png','PNG')
 
