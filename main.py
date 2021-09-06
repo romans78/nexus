@@ -72,7 +72,7 @@ def preprocess(input_file, verbose_mode):
     output_file = f"temp/gray_{input_file.rsplit(maxsplit=1, sep='/')[-1]}"
     cv2.imwrite(output_file, gray_image)
     if not is_pdf:
-        # binarization
+        #binarization
         if verbose_mode:
             logging.info(msg=f"Performing binarization for file {input_file}")
         (thresh, im_bw) = cv2.threshold(gray_image, 64, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
