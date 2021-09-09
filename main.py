@@ -71,37 +71,37 @@ def preprocess(input_file, verbose_mode):
     gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     output_file = f"temp/gray_{input_file.rsplit(maxsplit=1, sep='/')[-1]}"
     cv2.imwrite(output_file, gray_image)
-    if not is_pdf:
-        #binarization
-        if verbose_mode:
-            logging.info(msg=f"Performing binarization for file {input_file}")
-        (thresh, im_bw) = cv2.threshold(gray_image, 64, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
-        output_file = f"temp/imbw_{input_file.rsplit(maxsplit=1, sep='/')[-1]}"
-        cv2.imwrite(output_file, im_bw)
-
-    if not is_pdf:
-        #noise removal
-        if verbose_mode:
-            logging.info(msg=f"Performing noise removal for file imbw_{input_file.rsplit(maxsplit=1, sep='/')[-1]}")
-        kernel = np.ones((1, 1), np.uint8)
-        image = cv2.dilate(im_bw, kernel, iterations=1)
-        kernel = np.ones((1, 1), np.uint8)
-        image = cv2.erode(image, kernel, iterations=1)
-        image = cv2.morphologyEx(image, cv2.MORPH_CLOSE, kernel)
-        image = cv2.medianBlur(image, 3)
-        output_file = f"temp/nonoise_{input_file.rsplit(maxsplit=1, sep='/')[-1]}"
-        cv2.imwrite(output_file, image)
-
-    if not is_pdf:
-        #dilation
-        if verbose_mode:
-            logging.info(msg=f"Performing dilation for file nonoise_{input_file.rsplit(maxsplit=1, sep='/')[-1]}")
-        image = cv2.bitwise_not(image)
-        kernel = np.ones((2, 2), np.uint8)
-        image = cv2.dilate(image, kernel, iterations=1)
-        image = cv2.bitwise_not(image)
-        output_file = f"temp/dilate_{input_file.rsplit(maxsplit=1, sep='/')[-1]}"
-        cv2.imwrite(output_file, image)
+    # if not is_pdf:
+    #     #binarization
+    #     if verbose_mode:
+    #         logging.info(msg=f"Performing binarization for file {input_file}")
+    #     (thresh, im_bw) = cv2.threshold(gray_image, 64, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
+    #     output_file = f"temp/imbw_{input_file.rsplit(maxsplit=1, sep='/')[-1]}"
+    #     cv2.imwrite(output_file, im_bw)
+    #
+    # if not is_pdf:
+    #     #noise removal
+    #     if verbose_mode:
+    #         logging.info(msg=f"Performing noise removal for file imbw_{input_file.rsplit(maxsplit=1, sep='/')[-1]}")
+    #     kernel = np.ones((1, 1), np.uint8)
+    #     image = cv2.dilate(im_bw, kernel, iterations=1)
+    #     kernel = np.ones((1, 1), np.uint8)
+    #     image = cv2.erode(image, kernel, iterations=1)
+    #     image = cv2.morphologyEx(image, cv2.MORPH_CLOSE, kernel)
+    #     image = cv2.medianBlur(image, 3)
+    #     output_file = f"temp/nonoise_{input_file.rsplit(maxsplit=1, sep='/')[-1]}"
+    #     cv2.imwrite(output_file, image)
+    #
+    # if not is_pdf:
+    #     #dilation
+    #     if verbose_mode:
+    #         logging.info(msg=f"Performing dilation for file nonoise_{input_file.rsplit(maxsplit=1, sep='/')[-1]}")
+    #     image = cv2.bitwise_not(image)
+    #     kernel = np.ones((2, 2), np.uint8)
+    #     image = cv2.dilate(image, kernel, iterations=1)
+    #     image = cv2.bitwise_not(image)
+    #     output_file = f"temp/dilate_{input_file.rsplit(maxsplit=1, sep='/')[-1]}"
+    #     cv2.imwrite(output_file, image)
 
     return output_file
 
